@@ -20,15 +20,21 @@ public struct Announcement {
   public var title: String
   public var subtitle: String?
   public var image: UIImage?
+  public var titleColor: UIColor
+  public var subtitleColor: UIColor
+  public var backgroundColor: UIColor
   public var duration: TimeInterval
   public var action: (() -> Void)?
 
-  public init(title: String, subtitle: String? = nil, image: UIImage? = nil, duration: TimeInterval = 2, action: (() -> Void)? = nil) {
+    public init(title: String, subtitle: String? = nil, image: UIImage? = nil, duration: TimeInterval = 2, action: (() -> Void)? = nil, titleColor: UIColor = ColorList.Shout.title, subtitleColor: UIColor = ColorList.Shout.subtitle, backgroundColor: UIColor = ColorList.Shout.background) {
     self.title = title
     self.subtitle = subtitle
     self.image = image
     self.duration = duration
     self.action = action
+    self.titleColor = titleColor
+    self.subtitleColor = subtitleColor
+    self.backgroundColor = backgroundColor
   }
 }
 

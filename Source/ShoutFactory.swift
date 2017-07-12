@@ -129,6 +129,9 @@ open class ShoutView: UIView {
     imageView.image = announcement.image
     titleLabel.text = announcement.title
     subtitleLabel.text = announcement.subtitle
+    backgroundView.backgroundColor = announcement.backgroundColor
+    titleLabel.textColor = announcement.titleColor
+    subtitleLabel.textColor = announcement.subtitleColor
 
     displayTimer.invalidate()
     displayTimer = Timer.scheduledTimer(timeInterval: announcement.duration,
