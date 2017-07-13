@@ -120,6 +120,7 @@ open class WhistleFactory: UIViewController {
       height: titleLabelHeight)
     view.frame = whistleWindow.bounds
     titleLabel.frame = view.bounds
+    whistleWindow.makeKeyAndVisible()
   }
 
   // MARK: - Movement methods
@@ -172,7 +173,6 @@ open class WhistleFactory: UIViewController {
   func orientationDidChange() {
     if whistleWindow.isKeyWindow {
       setupFrames()
-      hide()
     }
   }
     
