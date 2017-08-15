@@ -124,21 +124,27 @@ open class ShoutView: UIView {
     self.completion = completion
   }
 
-  open func configureView(_ announcement: Announcement) {
-    self.announcement = announcement
-    imageView.image = announcement.image
-    titleLabel.text = announcement.title
-    subtitleLabel.text = announcement.subtitle
-    backgroundView.backgroundColor = announcement.backgroundColor
-    titleLabel.textColor = announcement.titleColor
-    subtitleLabel.textColor = announcement.subtitleColor
-
-    displayTimer.invalidate()
-    displayTimer = Timer.scheduledTimer(timeInterval: announcement.duration,
-      target: self, selector: #selector(ShoutView.displayTimerDidFire), userInfo: nil, repeats: false)
-
-    setupFrames()
-  }
+    open func configureView(_ announcement: Announcement) {
+        self.announcement = announcement
+        imageView.image = announcement.image
+        
+        if let attributedTitle = announcement.attributedTitle {
+            titleLabel.attributedText = attributedTitle
+        } else {
+            titleLabel.text = announcement.title
+        }
+        
+        subtitleLabel.text = announcement.subtitle
+        backgroundView.backgroundColor = announcement.backgroundColor
+        titleLabel.textColor = announcement.titleColor
+        subtitleLabel.textColor = announcement.subtitleColor
+        
+        displayTimer.invalidate()
+        displayTimer = Timer.scheduledTimer(timeInterval: announcement.duration,
+                                            target: self, selector: #selector(ShoutView.displayTimerDidFire), userInfo: nil, repeats: false)
+        
+        setupFrames()
+    }
 
   open func shout(to controller: UIViewController) {
     controller.view.addSubview(self)

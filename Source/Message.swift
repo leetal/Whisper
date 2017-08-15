@@ -16,7 +16,7 @@ public struct Message {
 }
 
 public struct Announcement {
-
+  public var attributedTitle: NSAttributedString?
   public var title: String
   public var subtitle: String?
   public var image: UIImage?
