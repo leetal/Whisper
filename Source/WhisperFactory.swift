@@ -37,6 +37,14 @@ class WhisperFactory: NSObject {
 
   func craft(_ message: Message, navigationController: UINavigationController, action: WhisperAction) {
     self.navigationController = navigationController
+    
+    if (self.navigationController?.delegate != nil && !(self.navigationController?.delegate is WhisperFactory))
+    {
+        fatalError("Navigation Controller relationship is required, but delegate is already set to a different target on destination.");
+        
+    }
+    ////
+    
     self.navigationController?.delegate = self
     presentTimer.invalidate()
 
@@ -135,7 +143,7 @@ class WhisperFactory: NSObject {
         subview.alpha = 1
       }
       }, completion: { _ in
-        self.delayTimer = Timer.scheduledTimer(timeInterval: 1.5, target: self,
+        self.delayTimer = Timer.scheduledTimer(timeInterval: Config.whisperShowDuration, target: self,
           selector: #selector(WhisperFactory.delayFired(_:)), userInfo: nil, repeats: false)
     })
   }
@@ -151,6 +159,13 @@ class WhisperFactory: NSObject {
     let action = action.rawValue
 
     var array = ["title": title, "textColor" : textColor, "backgroundColor": backgroundColor, "action": action] as [String : Any]
+    
+    if (message.attributedTitle != nil && message.attributedTitle!.length>0)
+    {
+        array["attributedTitle"]=message.attributedTitle;
+        
+    }
+    
     if let images = message.images { array["images"] = images }
 
     presentTimer = Timer.scheduledTimer(timeInterval: AnimationTiming.movement * 1.1, target: self,
@@ -190,9 +205,23 @@ class WhisperFactory: NSObject {
     if let imageArray = userInfo["images"] as? [UIImage]? { images = imageArray }
 
     let action = WhisperAction(rawValue: actionString)
-    let message = Message(title: title, textColor: textColor, backgroundColor: backgroundColor, images: images)
-
-    whisperView = WhisperView(height: navigationController.navigationBar.frame.height, message: message)
+    ////
+    
+    var message : Message?
+    
+    if (userInfo["attributedTitle"] != nil)
+    {
+        message = Message(attributedTitle: userInfo["attributedTitle"] as! NSAttributedString, textColor: textColor, backgroundColor: backgroundColor, images: images)
+        
+    }
+    else
+    {
+        message = Message(title: title, textColor: textColor, backgroundColor: backgroundColor, images: images)
+        
+    }
+    ////
+    
+    whisperView = WhisperView(height: navigationController.navigationBar.frame.height, message: message!)
     navigationController.navigationBar.addSubview(whisperView)
     whisperView.frame.size.height = 0
 
