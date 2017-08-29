@@ -30,23 +30,29 @@ public struct Message {
 }
 
 public struct Announcement {
-
+  public var attributedTitle: NSAttributedString?
   public var title: String
   public var subtitle: String?
   public var image: UIImage?
+  public var titleColor: UIColor
+  public var subtitleColor: UIColor
+  public var backgroundColor: UIColor
   public var duration: TimeInterval
   public var action: (() -> Void)?
   // Closure which is called when notification is dismissed manually
   // not by automatic timer
   public var dismissed: (() -> Void)?
 
-  public init(title: String, subtitle: String? = nil, image: UIImage? = nil, duration: TimeInterval = 2, action: (() -> Void)? = nil, dismissed: (() -> Void)? = nil) {
+    public init(title: String, subtitle: String? = nil, image: UIImage? = nil, duration: TimeInterval = 2, action: (() -> Void)? = nil, dismissed: (() -> Void)? = nil, titleColor: UIColor = ColorList.Shout.title, subtitleColor: UIColor = ColorList.Shout.subtitle, backgroundColor: UIColor = ColorList.Shout.background) {
     self.title = title
     self.subtitle = subtitle
     self.image = image
     self.duration = duration
     self.action = action
     self.dismissed = dismissed
+    self.titleColor = titleColor
+    self.subtitleColor = subtitleColor
+    self.backgroundColor = backgroundColor
   }
 }
 

@@ -139,12 +139,22 @@ open class ShoutView: UIView {
     imageView.image = announcement.image
     imageView.sizeToFit()
     imageView.layer.cornerRadius = Dimensions.imageRoundedCorners ? (min(imageView.frame.width, imageView.frame.height) / 2) : 0
+    if let attributedTitle = announcement.attributedTitle {
+        titleLabel.attributedText = attributedTitle
+    } else {
+        titleLabel.text = announcement.title
+    }
+    if let attributedTitle = announcement.attributedTitle {
+    titleLabel.attributedText = attributedTitle
+    } else {
     titleLabel.text = announcement.title
-    subtitleLabel.text = announcement.subtitle
+    }
 
     displayTimer.invalidate()
     displayTimer = Timer.scheduledTimer(timeInterval: announcement.duration,
       target: self, selector: #selector(ShoutView.displayTimerDidFire), userInfo: nil, repeats: false)
+
+    setupFrames()
   }
 
   open func shout(to controller: UIViewController) {
